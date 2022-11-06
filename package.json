@@ -9,10 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@supercharge/strings": "^1.29.0",
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "lodash": "^4.17.11",
-    "mongoose": "^6.7.1"
+    "mongoose": "^6.7.1",
+    "readpost": "^0.1.2"
   }
 }
