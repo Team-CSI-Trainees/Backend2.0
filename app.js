@@ -6,21 +6,18 @@ const ejs = require("ejs");
 const _ = require("lodash");
 const mongoose = require("mongoose");
 
-mongoose
-  .connect("mongodb+srv://saumyxa:saumyxa@cluster0.ltciay0.mongodb.net/test ", {
+mongoose.connect(
+  " mongodb+srv://saumyxa:saumyxa@cluster0.ltciay0.mongodb.net/test",
+  {
     useNewUrlParser: true,
-  })
-  .then(() => console.log("connection successfull"))
-  .catch((err) => console.log(err));
+  }
+);
+// .then(() => console.log("connection successfull"))
+// .catch((err) => console.log(err));
 
-var bgc = "";
 const blogSchema = new mongoose.Schema({
+  title: String,
   content: String,
-  blogPost: String,
-  createdDate: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
 const Post = mongoose.model("Post", blogSchema);
@@ -39,7 +36,7 @@ app.set("view engine", "ejs");
 
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 app.get("/", function (req, res) {
   Post.find(function (err, posts) {
@@ -67,41 +64,19 @@ app.get("/compose", function (req, res) {
 });
 
 app.post("/compose", function (req, res) {
-  bgc = req.body.postBody;
   const post = new Post({
-    content: req.body.postTitle,
-    newPost: req.body.postBody,
+    title: req.body.title,
+    content: req.body.discription,
   });
-  console.log(Post.findOne({}, { content: 1 }));
-
-  const readPost = new ReadPost({
-    bgTitle: post.content,
-  });
-  post.save(function (err) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect("/");
-    }
-  });
+  post.save();
+  res.redirect("/");
 });
-
-app.get("/posts/:Name", function (req, res) {
-  const showTitle = req.params.Name;
-  const requestedTitle = _.lowerCase(req.params.Name);
-
-  Post.find({}, function (err, result) {
-    if (err) throw err;
-    result.forEach((element) => {
-      console.log(element.content);
-      const storedtitle = _.lowerCase(element.content);
-
-      if (storedtitle === requestedTitle) {
-        res.render("post", {
-          title: element.content,
-          bPost: element.newPost,
-        });
-      } else res.render("ERROR");
+app.get("/posts/:postID", function (req, res) {
+  const requestedpostID = req.params.postID;
+  Post.findOne({ _id: requestedpostID }, function (err, post) {
+    res.render("post", {
+      title: post.title,
+      content: post.content,
     });
   });
 });
