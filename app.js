@@ -67,7 +67,7 @@ app.get("/compose", function (req, res) {
 app.post("/compose", function (req, res) {
   const post = new Post({
     title: req.body.title,
-    content: req.body.discription,
+    content: req.body.description,
   });
   post.save();
   res.redirect("/");
