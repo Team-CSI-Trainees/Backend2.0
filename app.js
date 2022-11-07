@@ -85,5 +85,5 @@ app.get("/posts/:postID", function (req, res) {
 });
 
 app.listen(port, function () {
-  console.log("Server started");
+  console.log("server started");
 });
