@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
 const mongoose = require("mongoose");
-// const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 mongoose.connect(
   "mongodb+srv://saumyxa:saumyxa@cluster0.ltciay0.mongodb.net/blogDB",
@@ -84,6 +84,6 @@ app.get("/posts/:postID", function (req, res) {
   });
 });
 
-app.listen(27017, function () {
+app.listen(port, function () {
   console.log("Server started");
 });
