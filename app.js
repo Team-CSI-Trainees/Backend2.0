@@ -5,16 +5,17 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
 const mongoose = require("mongoose");
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 
 mongoose.connect(
-  " mongodb+srv://saumyxa:saumyxa@cluster0.ltciay0.mongodb.net/test",
+  "mongodb+srv://saumyxa:saumyxa@cluster0.ltciay0.mongodb.net/blogDB",
   {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
   }
 );
 // .then(() => console.log("connection successfull"))
-// .catch((err) => console.log(err));
+//  .catch((err) => console.log(err));
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -31,13 +32,13 @@ const contactContent =
   "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
 const app = express();
-app.use(express.json());
+// app.use(express.json());
 
 app.set("view engine", "ejs");
 
-app.use(bodyParser.json({ extended: true }));
+// app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(express.static("public"));
+app.use(express.static("public"));
 
 app.get("/", function (req, res) {
   Post.find(function (err, posts) {
@@ -74,6 +75,7 @@ app.post("/compose", function (req, res) {
 });
 app.get("/posts/:postID", function (req, res) {
   const requestedpostID = req.params.postID;
+  console.log(requestedpostID);
   Post.findOne({ _id: requestedpostID }, function (err, post) {
     res.render("post", {
       title: post.title,
@@ -82,6 +84,6 @@ app.get("/posts/:postID", function (req, res) {
   });
 });
 
-app.listen(port, function () {
+app.listen(27017, function () {
   console.log("Server started");
 });
